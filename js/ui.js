@@ -26,7 +26,7 @@
         'pause', 'pResume', 'pRestart', 'pMenu', 'result', 'resTitle', 'resScore', 'resNew',
         'resName', 'resInput', 'resOk', 'resStats', 'resExtra', 'resFoot', 'achToast',
         'scoreChip', 'achvBadge',
-        'btnStart', 'btnDaily', 'btnEndless', 'fullBtn', 'footInfo', 'stage', 'game'
+        'btnStart', 'btnDaily', 'btnEndless', 'fullBtn', 'footInfo', 'footBar', 'stage', 'game'
       ].forEach(function (id) { e[id] = $(id); });
 
       var self = this;
@@ -93,14 +93,17 @@
     },
 
     refreshFoot: function () {
-      /* 按「实际生效」的操控方案给提示（自动模式下手机上不会再显示键盘键位） */
+      /* 按「实际生效」的操控方案给提示；触屏设备直接整块隐藏（手机上没有键盘，提示没意义） */
       var sc = PW.Input.scheme;
-      var txt = sc === 'mouse'
+      var bar = this.el.footBar;
+      if (sc === 'touch') {
+        if (bar) bar.classList.add('off');
+        return;
+      }
+      if (bar) bar.classList.remove('off');
+      this.el.footInfo.textContent = sc === 'mouse'
         ? '鼠标移动 · 左键射击 · X 炸弹 · C 技能 · Esc 暂停'
-        : (sc === 'touch'
-          ? '手指拖动屏幕移动 · 自动射击 · 右下按钮放炸弹 / 技能'
-          : '方向键/WASD 移动 · Shift 慢速 · 空格/Z 射击 · X 炸弹 · C 技能 · Esc 暂停');
-      this.el.footInfo.textContent = txt;
+        : '方向键/WASD 移动 · Shift 慢速 · 空格/Z 射击 · X 炸弹 · C 技能 · Esc 暂停';
     },
 
     toggleFull: function () {

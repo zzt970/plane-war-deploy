@@ -96,11 +96,15 @@ canvas#game {
 /* ==================== 主菜单 ==================== */
 .menu-inner {
   width: min(420px, 92vw);
-  max-height: 96vh; overflow-y: auto;
+  max-height: 96vh;
+  overflow-y: auto;
+  overflow-x: hidden;                 /* 彻底禁止横向滚动条（之前 overflow-y:auto 会把 x 也变成 auto） */
+  scrollbar-width: none;              /* Firefox：隐藏滚动条，滚轮仍可用 */
   padding: 18px 4px;
   text-align: center;
-  scrollbar-width: thin;
 }
+/* Chrome/Edge：主菜单不显示滚动条（那根带箭头的灰条就是它） */
+.menu-inner::-webkit-scrollbar { width: 0; height: 0; display: none; }
 .logo { margin-bottom: 20px; }
 .logo-sub {
   font-size: 11px; letter-spacing: 8px; color: var(--dim);
@@ -171,6 +175,7 @@ canvas#game {
   font-family: var(--mono); line-height: 1.7;
   display: flex; flex-direction: column; gap: 2px;
 }
+.foot.off { display: none; }
 .ver { opacity: .5; }
 
 /* ==================== 面板 ==================== */
@@ -198,7 +203,13 @@ canvas#game {
   font-size: 22px; line-height: 1; cursor: pointer; padding: 0 4px;
 }
 .x:hover { color: var(--accent); }
-.panel-body { padding: 14px; overflow-y: auto; flex: 1; }
+.panel-body { padding: 14px; overflow-y: auto; overflow-x: hidden; flex: 1; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.18) transparent; }
+/* 面板内的滚动条改成细而暗的自绘样式，不用系统那根带箭头的灰条 */
+.panel-body::-webkit-scrollbar { width: 6px; height: 6px; }
+.panel-body::-webkit-scrollbar-track { background: transparent; }
+.panel-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,.16); border-radius: 3px; }
+.panel-body::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.28); }
+.panel-body::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
 .panel-foot {
   padding: 12px 14px; border-top: 1px solid var(--line);
   display: flex; gap: 8px; flex-wrap: wrap;

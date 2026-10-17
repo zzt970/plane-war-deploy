@@ -215,6 +215,8 @@
     });
 
     applySettings();
+    // 方案解析完成后刷新一次底部提示（否则触屏设备仍会显示键盘键位）
+    PW.UI.refreshFoot();
     initDecor();
 
     document.getElementById('boot').classList.add('hidden');
