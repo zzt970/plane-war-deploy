@@ -121,10 +121,13 @@
     var p = this.player, mv = { x: 0, y: 0, slow: false };
     if (!p || !p.alive) return mv;
     var scheme = PW.Input.scheme;
-    if (scheme === 'keyboard') {
-      var a = PW.Input.axis();
-      mv.x = a.x; mv.y = a.y; mv.slow = a.slow;
-    } else if (scheme === 'mouse') {
+
+    /* 键盘轴始终参与（桌面默认） */
+    var a = PW.Input.axis();
+    mv.x = a.x; mv.y = a.y; mv.slow = a.slow;
+
+    /* 鼠标跟手：仅鼠标方案，避免触屏时误跟 */
+    if (scheme === 'mouse') {
       var pt = PW.Input.pointer;
       if (pt.active) {
         var dx = pt.x - p.x, dy = pt.y - p.y;
@@ -134,15 +137,13 @@
           mv.x = dx / d * k; mv.y = dy / d * k;
         }
       }
-      mv.slow = PW.Input.slow;
-    } else {
-      var dg = PW.Input.takeDrag();
-      if (dg) {
-        // 触摸：像素位移直接换算为移动量（1.6 倍手感增益）
-        mv.x = U.clamp(dg.x * 1.6 / 16, -1, 1);
-        mv.y = U.clamp(dg.y * 1.6 / 16, -1, 1);
-      }
-      mv.slow = false;
+    }
+
+    /* 触摸拖动始终生效：不论当前方案是什么，手指拖动都能带动飞机 */
+    var dg = PW.Input.takeDrag();
+    if (dg && (dg.x || dg.y)) {
+      mv.x = U.clamp(mv.x + dg.x * 1.6 / 16, -1, 1);
+      mv.y = U.clamp(mv.y + dg.y * 1.6 / 16, -1, 1);
     }
     return mv;
   };
@@ -937,8 +938,9 @@
       PW.HUD.dim(g, 0.5 * (1 - this.phaseT / 1.4));
     }
 
-    // 移动端按钮
-    if (PW.Input.scheme === 'touch') this.btns = PW.HUD.renderControls(g);
+    // 移动端按钮：触摸方案或触屏设备都渲染，保证手机上够得着炸弹/技能
+    if (PW.Input.scheme === 'touch' || PW.Input.isTouch()) this.btns = PW.HUD.renderControls(g);
+    else this.btns = [];
   };
 
   Scene.prototype.modText = function () {

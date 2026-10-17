@@ -38,7 +38,12 @@
     PW.Audio.setSfx(s.sfx);
     PW.Audio.setBgm(s.bgm);
     PW.Audio.setBgmOn(s.bgmOn);
-    PW.Input.setScheme(s.control);
+    /* auto：触屏设备走拖动，桌面走键盘；显式选择则以选择为准 */
+    var ctl = s.control;
+    if (ctl !== 'keyboard' && ctl !== 'mouse' && ctl !== 'touch') {
+      ctl = PW.Input.isTouch() ? 'touch' : 'keyboard';
+    }
+    PW.Input.setScheme(ctl);
     PW.BG.setQuality(s.quality);
     if (scene) scene.setQuality(s.quality);
   }

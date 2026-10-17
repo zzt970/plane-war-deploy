@@ -37,6 +37,12 @@
     if (e.code === 'Space' || e.code.indexOf('Arrow') === 0) e.preventDefault();
     if (onAnyKey) onAnyKey(e.code);
   }
+
+  /* 触屏设备判定：手机 / 平板 / 触屏笔记本 */
+  function isTouch() {
+    if (global.navigator && global.navigator.maxTouchPoints > 0) return true;
+    return 'ontouchstart' in global;
+  }
   function up(e) {
     var a = KEYMAP[e.code];
     if (!a) return;
@@ -101,6 +107,7 @@
 
   var Input = {
     bind: bind,
+    isTouch: isTouch,
     setScheme: function (s) { scheme = s; },
     get scheme() { return scheme; },
     onAnyKey: function (fn) { onAnyKey = fn; },

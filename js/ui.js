@@ -93,11 +93,13 @@
     },
 
     refreshFoot: function () {
-      var s = PW.Store.settings();
-      var txt = s.control === 'keyboard'
-        ? '方向键/WASD 移动 · Shift 慢速 · 空格/Z 射击 · X 炸弹 · C 技能 · Esc 暂停'
-        : (s.control === 'mouse' ? '鼠标移动 · 左键射击 · X 炸弹 · C 技能 · Esc 暂停'
-          : '拖动屏幕移动 · 自动射击 · 右下按钮放炸弹与技能');
+      /* 按「实际生效」的操控方案给提示（自动模式下手机上不会再显示键盘键位） */
+      var sc = PW.Input.scheme;
+      var txt = sc === 'mouse'
+        ? '鼠标移动 · 左键射击 · X 炸弹 · C 技能 · Esc 暂停'
+        : (sc === 'touch'
+          ? '手指拖动屏幕移动 · 自动射击 · 右下按钮放炸弹 / 技能'
+          : '方向键/WASD 移动 · Shift 慢速 · 空格/Z 射击 · X 炸弹 · C 技能 · Esc 暂停');
       this.el.footInfo.textContent = txt;
     },
 
@@ -503,9 +505,11 @@
       h += '<button class="' + (s.quality === 'high' ? 'on' : '') + '" data-quality="high">高画质</button>';
       h += '<button class="' + (s.quality === 'low' ? 'on' : '') + '" data-quality="low">流畅</button></div>';
       h += '<div class="seg" style="margin-top:6px">';
+      h += '<button class="' + (s.control === 'auto' ? 'on' : '') + '" data-control="auto">自动</button>';
       h += '<button class="' + (s.control === 'keyboard' ? 'on' : '') + '" data-control="keyboard">键盘</button>';
       h += '<button class="' + (s.control === 'mouse' ? 'on' : '') + '" data-control="mouse">鼠标</button>';
       h += '<button class="' + (s.control === 'touch' ? 'on' : '') + '" data-control="touch">触摸</button></div>';
+      h += '<p class="hint" style="margin:6px 0 0">自动：触屏设备用拖动，电脑用键盘</p>';
       h += this.toggleRow('autoFire', '自动开火', '关闭后需手动按射击键', s.autoFire);
       h += this.toggleRow('shake', '屏幕震动', '晕动敏感者可关闭', s.shake);
 

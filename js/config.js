@@ -256,7 +256,7 @@
     bgm: 0.45,              // 音乐音量
     bgmOn: true,
     quality: 'high',        // high / low（低画质关闭辉光与大量粒子）
-    control: 'keyboard',    // keyboard / mouse / touch
+    control: 'auto',        // auto（按设备自动选）/ keyboard / mouse / touch
     autoFire: true,         // 自动开火
     shake: true,            // 屏幕震动
     autoTheme: false        // 每关随机背景
