@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#05070F" />
+<meta name="description" content="霓虹之翼 · 休闲空战：6 套背景主题、6 架战机、8 关卡 BOSS 战、无尽模式与每日挑战，打光敌机才能召唤 BOSS" />
+<title>霓虹之翼 · 休闲空战</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div id="app">
+  <!-- ============ 游戏画布 ============ -->
+  <div id="stage">
+    <canvas id="game" width="480" height="720"></canvas>
+    <button id="fullBtn" class="corner-btn" title="全屏">[ ]</button>
+  </div>
+
+  <!-- ============ 加载 ============ -->
+  <div id="boot" class="screen">
+    <div class="boot-text">LOADING NEON WINGS...</div>
+  </div>
+
+  <!-- ============ 主菜单 ============ -->
+  <div id="menu" class="screen hidden">
+    <div class="menu-inner">
+      <div class="logo">
+        <div id="scoreChip" class="score-chip">累计积分 0</div>
+        <div class="logo-sub">休闲空战</div>
+        <h1 class="logo-main">NEON WINGS</h1>
+        <div class="logo-line"></div>
+        <div class="logo-cn">霓 虹 之 翼</div>
+      </div>
+
+      <button id="btnStart" class="btn btn-primary btn-lg">开 始 游 戏</button>
+
+      <div class="grid-2">
+        <button class="btn" data-open="levels">关卡选择</button>
+        <button class="btn" data-open="hangar">机库</button>
+        <button class="btn" data-open="ranks">排行榜</button>
+        <button class="btn" data-open="achv">成就<span id="achvBadge" class="badge hidden">0</span></button>
+        <button class="btn" data-open="dex">敌机图鉴</button>
+        <button class="btn" data-open="profile">战绩档案</button>
+        <button class="btn" data-open="settings">设置</button>
+        <button class="btn" data-open="help">操作说明</button>
+      </div>
+
+      <div class="grid-2 mt">
+        <button id="btnDaily" class="btn btn-accent">每日挑战</button>
+        <button id="btnEndless" class="btn btn-warn">无尽模式</button>
+      </div>
+
+      <div class="foot">
+        <span id="footInfo">方向键/WASD 移动 · 空格射击 · X 炸弹 · C 技能 · Esc 暂停</span>
+        <span class="ver">v2.0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 通用弹层 ============ -->
+  <div id="modal" class="screen hidden">
+    <div class="panel">
+      <div class="panel-head">
+        <span id="modalTitle">标题</span>
+        <button id="modalClose" class="x">×</button>
+      </div>
+      <div id="modalBody" class="panel-body"></div>
+      <div id="modalFoot" class="panel-foot"></div>
+    </div>
+  </div>
+
+  <!-- ============ 暂停 ============ -->
+  <div id="pause" class="screen hidden">
+    <div class="panel panel-sm">
+      <div class="panel-head"><span>已 暂 停</span></div>
+      <div class="panel-body">
+        <p class="hint">按 Esc 或点击下方按钮继续</p>
+        <div class="col">
+          <button id="pResume" class="btn btn-primary">继续游戏</button>
+          <button id="pRestart" class="btn">重新开始本关</button>
+          <button id="pMenu" class="btn btn-ghost">返回主菜单</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 结算 ============ -->
+  <div id="result" class="screen hidden">
+    <div class="panel">
+      <div class="panel-head"><span id="resTitle">GAME OVER</span></div>
+      <div class="panel-body">
+        <div id="resScore" class="big-score">0</div>
+        <div id="resNew" class="new-record hidden">★ 新纪录！输入名字并按回车确认 ★</div>
+        <div id="resName" class="name-row hidden">
+          <input id="resInput" maxlength="8" placeholder="PILOT" />
+          <button id="resOk" class="btn btn-sm">确认</button>
+        </div>
+        <div id="resStats" class="stat-grid"></div>
+        <div id="resExtra" class="hint"></div>
+      </div>
+      <div id="resFoot" class="panel-foot"></div>
+    </div>
+  </div>
+
+  <!-- ============ 成就飘窗 ============ -->
+  <div id="achToast" class="ach-toast hidden"></div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/input.js"></script>
+<script src="js/background.js"></script>
+<script src="js/entities.js"></script>
+<script src="js/hud.js"></script>
+<script src="js/game.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
